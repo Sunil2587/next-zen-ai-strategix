@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import { Check, Zap, Code, Headphones } from 'lucide-react';
 
 const features = [
@@ -27,44 +28,89 @@ const features = [
 ];
 
 export default function About() {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
+
   return (
-    <section id="about" className="py-20 bg-gradient-to-br from-[#0a1628] via-[#0f1f3a] to-[#1a2942] relative overflow-hidden">
-      <div className="container mx-auto px-6">
+    <section ref={sectionRef} id="about" className="py-24 bg-gray-50 relative overflow-hidden">
+      {/* Animated background orbs */}
+      <motion.div
+        style={{ rotate, scale }}
+        className="absolute top-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
+      />
+      <motion.div
+        style={{ rotate: useTransform(scrollYProgress, [0, 1], [360, 0]) }}
+        className="absolute bottom-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
+      />
+      
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, type: "spring" }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Why Choose Next Zen AI Strategix?
-          </h2>
-          <p className="text-gray-300 text-lg max-w-4xl mx-auto">
-            As a dynamic startup, we combine innovative AI solutions with practical execution. Our agile approach ensures you get cutting-edge technology tailored to your business needs, delivered with the speed and flexibility only a startup can offer.
-          </p>
+          <motion.h2 
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-4xl md:text-5xl font-bold text-black mb-6"
+          >
+            Who We Are
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-gray-600 text-lg max-w-4xl mx-auto leading-relaxed"
+          >
+            We&apos;re a forward-thinking technology partner delivering enterprise-grade AI solutions with the agility and innovation that drives business transformation. Our mission is to make cutting-edge technology accessible and practical for organizations of all sizes.
+          </motion.p>
         </motion.div>
 
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-blue-500/50 transition-all duration-300"
+              initial={{ opacity: 0, y: 50, scale: 0.8 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: index * 0.15,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -10,
+                transition: { duration: 0.3 }
+              }}
+              className="bg-white rounded-lg p-8 border border-gray-200 hover:border-cyan-500 transition-all duration-300 hover:shadow-lg"
             >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
-                  <feature.icon className="w-6 h-6 text-white" />
-                </div>
+              <div className="flex flex-col items-center text-center gap-4">
+                <motion.div 
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
+                  className="w-16 h-16 bg-cyan-500 rounded-lg flex items-center justify-center flex-shrink-0"
+                >
+                  <feature.icon className="w-8 h-8 text-white" />
+                </motion.div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
+                  <h3 className="text-xl font-bold text-black mb-2">
                     {feature.title}
                   </h3>
                   {feature.description && (
-                    <p className="text-sm text-gray-400 mt-1">
+                    <p className="text-sm text-gray-600 leading-relaxed">
                       {feature.description}
                     </p>
                   )}

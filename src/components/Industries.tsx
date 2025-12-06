@@ -1,125 +1,406 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { ShoppingCart, HeartPulse, GraduationCap, TrendingUp, Users, Rocket } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import Image from 'next/image';
+import { 
+  Building2, ShoppingCart, Factory, Smartphone, HeartPulse, 
+  Landmark, Truck, Cpu, CheckCircle, Target, Shield, TrendingUp 
+} from 'lucide-react';
 
 const industries = [
   {
+    icon: Building2,
+    title: 'Financial Services',
+    description: 'Transforming the future of finance with intelligent automation, risk analytics, and secure digital platforms.',
+    gradient: 'from-blue-600 to-cyan-600',
+    image: 'https://images.unsplash.com/photo-1601597111158-2fceff292cdc?w=800&h=500&fit=crop',
+    subIndustries: ['Banking', 'Capital Markets', 'Insurance', 'Private Equity & Investment Firms'],
+    services: [
+      'Fraud detection & AML models',
+      'Algo-trading & quant analytics',
+      'Core banking modernization',
+      'Risk & compliance automation'
+    ]
+  },
+  {
     icon: ShoppingCart,
-    title: 'Retail & E-commerce',
-    description: 'AI-powered customer experiences and inventory optimization',
-    gradient: 'from-blue-500 to-cyan-500',
+    title: 'Consumer & Retail',
+    description: 'Helping brands deliver smarter, faster and more personalized experiences to their customers.',
+    gradient: 'from-purple-600 to-pink-600',
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=500&fit=crop',
+    subIndustries: ['Retail', 'Consumer Goods & Services', 'Travel & Hospitality'],
+    services: [
+      'Demand forecasting & supply chain analytics',
+      'Customer personalization engines',
+      'Inventory optimization',
+      'Digital store experiences (AR/VR)'
+    ]
+  },
+  {
+    icon: Factory,
+    title: 'Manufacturing, Industrial & Resources',
+    description: 'Building intelligent, resilient, and automated ecosystems for heavy industries.',
+    gradient: 'from-orange-600 to-red-600',
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=500&fit=crop',
+    subIndustries: ['Industrial Manufacturing', 'Automotive', 'Aerospace & Defense', 'Chemicals', 'Energy', 'Natural Resources', 'Utilities'],
+    services: [
+      'Predictive maintenance',
+      'Digital twins & IoT solutions',
+      'Smart factories',
+      'Supply chain optimization',
+      'Engineering R&D support'
+    ]
+  },
+  {
+    icon: Smartphone,
+    title: 'Communications, Media & Technology',
+    description: 'Accelerating innovation for tech-first organizations through AI, cloud and next-gen platforms.',
+    gradient: 'from-cyan-600 to-blue-600',
+    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=500&fit=crop',
+    subIndustries: ['Software & Platforms', 'Communications & Media', 'High Tech', 'Gaming & Digital Products'],
+    services: [
+      'Cloud-native product engineering',
+      'AI-powered recommendation engines',
+      'Platform modernization',
+      'XR/Metaverse experiences'
+    ]
   },
   {
     icon: HeartPulse,
-    title: 'Healthcare & Wellness',
-    description: 'Digital health solutions and patient management systems',
-    gradient: 'from-pink-500 to-rose-500',
+    title: 'Healthcare & Life Sciences',
+    description: 'Enabling better outcomes through AI-driven care, research automation, and digital platforms.',
+    gradient: 'from-pink-600 to-rose-600',
+    subIndustries: ['Healthcare Providers', 'Life Sciences', 'Pharmaceuticals', 'Medical Devices'],
+    services: [
+      'Predictive healthcare analytics',
+      'Patient experience platforms',
+      'Clinical data automation',
+      'Device and diagnostic analytics'
+    ],
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop'
   },
   {
-    icon: GraduationCap,
-    title: 'Education & EdTech',
-    description: 'Learning platforms and educational technology solutions',
-    gradient: 'from-purple-500 to-indigo-500',
+    icon: Landmark,
+    title: 'Public Sector & Government',
+    description: 'Supporting government modernization with secure, efficient, citizen-focused technology.',
+    gradient: 'from-indigo-600 to-purple-600',
+    subIndustries: ['Public Service', 'Education', 'US Federal Government'],
+    services: [
+      'Digital public services',
+      'Citizen/beneficiary experience platforms',
+      'AI-driven workflows for government operations',
+      'Cybersecurity & compliance'
+    ],
+    image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&h=500&fit=crop'
   },
   {
-    icon: TrendingUp,
-    title: 'Startups & SMBs',
-    description: 'Scalable tech solutions for growing businesses',
-    gradient: 'from-green-500 to-emerald-500',
+    icon: Truck,
+    title: 'Logistics, Supply Chain & Transportation',
+    description: 'Delivering operational excellence through automation, visibility, and real-time insights.',
+    gradient: 'from-green-600 to-emerald-600',
+    subIndustries: ['Logistics Providers', 'Warehousing', 'Transportation', 'Freight & Distribution'],
+    services: [
+      'Route optimization',
+      'Inventory management',
+      'Demand & supply forecasting',
+      'Real-time tracking & digital twins'
+    ],
+    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=500&fit=crop'
   },
   {
-    icon: Users,
-    title: 'Professional Services',
-    description: 'Automation and workflow optimization for service firms',
-    gradient: 'from-orange-500 to-amber-500',
-  },
-  {
-    icon: Rocket,
-    title: 'Tech Companies',
-    description: 'AI integration and product development support',
-    gradient: 'from-violet-500 to-purple-500',
+    icon: Cpu,
+    title: 'Emerging Industries & Future Technologies',
+    description: 'Helping organizations embrace innovation with strategic use of emerging tech.',
+    gradient: 'from-violet-600 to-fuchsia-600',
+    subIndustries: ['Metaverse & XR', 'IoT & Smart Devices', 'Robotics & Automation', 'AI Hardware Manufacturing'],
+    services: [
+      'Metaverse environments',
+      'AR/VR experiences',
+      'AI device prototyping',
+      'Advanced R&D services'
+    ],
+    image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=500&fit=crop'
   },
 ];
 
+const trustPoints = [
+  {
+    icon: Target,
+    title: 'Deep Industry Expertise',
+    description: 'We bring domain-specific knowledge and experience across 20+ sectors.'
+  },
+  {
+    icon: Cpu,
+    title: 'AI-first Strategy',
+    description: 'We build intelligent solutions tailored to each industry\'s unique challenges.'
+  },
+  {
+    icon: Shield,
+    title: 'Scalable & Secure',
+    description: 'Enterprise-grade architectures built with security and compliance in mind.'
+  },
+  {
+    icon: TrendingUp,
+    title: 'Proven Outcomes',
+    description: 'Real-world results: improved forecasting, reduced costs, increased efficiency.'
+  }
+];
+
 export default function Industries() {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
   });
 
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
   return (
-    <section id="industries" className="py-32 bg-gradient-to-br from-[#0a1628] via-[#0f1f3a] to-[#1a2942] relative overflow-hidden">
-      {/* Animated background orbs */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
+    <section ref={sectionRef} id="industries" className="py-24 bg-white relative overflow-hidden">
+      {/* Subtle pattern */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `
+            linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+            linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px'
+        }} />
       </div>
+
+      {/* Animated background elements */}
+      <motion.div
+        style={{ y }}
+        className="absolute top-20 right-10 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl"
+      />
+      <motion.div
+        style={{ y: useTransform(scrollYProgress, [0, 1], [-50, 50]) }}
+        className="absolute bottom-20 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
+      />
       
       <div className="container mx-auto px-6 relative z-10">
+        {/* Hero Section */}
         <motion.div
-          ref={ref}
           initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-md border border-white/20 rounded-full font-semibold text-sm mb-8 text-white"
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-5xl md:text-6xl font-bold text-black mb-6"
           >
-            <Rocket className="w-4 h-4" />
-            <span>Industry Expertise</span>
+            Industries We Serve
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-xl text-gray-600 max-w-4xl mx-auto mb-10 leading-relaxed"
+          >
+            Driving digital transformation across sectors with AI, cloud, automation, and next-gen technologies.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="flex flex-wrap gap-4 justify-center"
+          >
+            <motion.a
+              href="#services"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="px-8 py-4 bg-cyan-500 hover:bg-cyan-600 text-black font-semibold rounded transition-all"
+            >
+              Explore Services
+            </motion.a>
+            <motion.a
+              href="#contact"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="px-8 py-4 bg-transparent border-2 border-gray-300 hover:border-black text-black font-semibold rounded transition-all"
+            >
+              Contact Our Experts
+            </motion.a>
           </motion.div>
-          <h2 className="text-5xl md:text-7xl font-black mb-8 text-white tracking-tight">
-            Industries We <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Serve</span>
-          </h2>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Empowering diverse sectors with cutting-edge AI and tech solutions
-          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {industries.map((industry, index) => {
-            const Icon = industry.icon;
-            return (
+        {/* Industry Categories - 2 Column Layout */}
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 mb-24">
+          {industries.map((industry, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: index * 0.1,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{ 
+                y: -8,
+                transition: { duration: 0.3 }
+              }}
+              className="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-cyan-500"
+            >
+              {/* Image Header */}
+              <div className="relative h-48 overflow-hidden group">
+                <Image 
+                  src={industry.image}
+                  alt={industry.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                {/* Icon overlay */}
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
+                  className={`absolute bottom-4 left-4 w-14 h-14 bg-gradient-to-br ${industry.gradient} rounded-lg flex items-center justify-center shadow-lg`}
+                >
+                  <industry.icon className="w-7 h-7 text-white" />
+                </motion.div>
+              </div>
+
+              {/* Content */}
+              <div className="p-8">
+                {/* Title and Description */}
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold text-black mb-2">
+                    {industry.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {industry.description}
+                  </p>
+                </div>
+
+              {/* Sub-industries */}
+              <div className="mb-6">
+                <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Industries Included:</h4>
+                <div className="flex flex-wrap gap-2">
+                  {industry.subIndustries.map((sub, idx) => (
+                    <span 
+                      key={idx}
+                      className="px-3 py-1 bg-gray-100 border border-gray-200 rounded-full text-xs text-gray-700"
+                    >
+                      {sub}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Services */}
+              <div>
+                <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">What We Do:</h4>
+                <ul className="space-y-2">
+                  {industry.services.map((service, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-sm text-gray-600">
+                      <CheckCircle className="w-4 h-4 text-cyan-500 mt-0.5 flex-shrink-0" />
+                      <span>{service}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Why Industries Choose Us */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8 }}
+          className="mb-24"
+        >
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
+              Why Industries Choose Us
+            </h2>
+          </div>
+
+          <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {trustPoints.map((point, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 50 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
-                whileHover={{ y: -12, scale: 1.02 }}
-                className="group bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/30 rounded-3xl p-8 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300"
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: index * 0.1,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{ 
+                  scale: 1.05, 
+                  y: -10,
+                  transition: { duration: 0.3 }
+                }}
+                className="bg-white rounded-lg p-6 border-2 border-gray-200 hover:border-cyan-500 hover:shadow-lg transition-all duration-300"
               >
                 <motion.div
-                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
-                  className={`w-16 h-16 bg-gradient-to-br ${industry.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30`}
+                  className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center mb-4 shadow-md"
                 >
-                  <Icon className="w-8 h-8 text-white" />
+                  <point.icon className="w-7 h-7 text-white" />
                 </motion.div>
-                <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-blue-400 transition-all">
-                  {industry.title}
+                <h3 className="text-lg font-bold text-black mb-2">
+                  {point.title}
                 </h3>
-                <p className="text-gray-400 leading-relaxed">
-                  {industry.description}
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  {point.description}
                 </p>
-                <div className="mt-6 pt-6 border-t border-white/10">
-                  <motion.div
-                    className="w-12 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: 48 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 + 0.3, duration: 0.5 }}
-                  />
-                </div>
               </motion.div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8 }}
+          className="bg-gray-50 rounded-2xl p-12 text-center border-2 border-gray-200"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
+            Explore How We Transform Your Industry
+          </h2>
+          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Ready to accelerate your industry transformation? Talk to our experts today and discover how AI, cloud and digital solutions can reshape your business.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <motion.a
+              href="#contact"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 bg-cyan-500 hover:bg-cyan-600 text-white font-bold rounded-lg shadow-md transition-all"
+            >
+              Contact Us
+            </motion.a>
+            <motion.a
+              href="#contact"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 bg-white hover:bg-gray-50 text-black font-bold rounded-lg border-2 border-gray-300 hover:border-cyan-500 transition-all"
+            >
+              Book a Consultation
+            </motion.a>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

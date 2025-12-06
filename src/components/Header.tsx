@@ -4,19 +4,35 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import Logo from './Logo';
 
 const navItems = [
-  { name: 'Services', href: '#services' },
-  { name: 'Industries', href: '#industries' },
-  { name: 'Insights', href: '#insights' },
-  { name: 'About', href: '#about' },
-  { name: 'Contact', href: '#contact' },
+  { 
+    name: 'What we do', 
+    href: '#services',
+    hasDropdown: false
+  },
+  { 
+    name: 'What we think', 
+    href: '#insights',
+    hasDropdown: false
+  },
+  { 
+    name: 'Who we are', 
+    href: '#about',
+    hasDropdown: false
+  },
+  { 
+    name: 'Industries', 
+    href: '#industries',
+    hasDropdown: false
+  },
 ];
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('');
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,92 +44,129 @@ export default function Header() {
 
   return (
     <>
-      {/* Floating Pill Navbar */}
+      {/* Professional Fixed Header */}
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="fixed top-0 left-0 right-0 z-50 px-4 pt-6"
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-black/95 backdrop-blur-xl shadow-2xl border-b border-white/10' 
+            : 'bg-black/80 backdrop-blur-md border-b border-white/5'
+        }`}
       >
-        <nav className="container mx-auto">
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className={`mx-auto max-w-5xl flex items-center justify-center gap-2 transition-all duration-500 ${
-              isScrolled
-                ? 'bg-white/95 backdrop-blur-xl shadow-2xl shadow-blue-500/10 border border-slate-200'
-                : 'bg-white/90 backdrop-blur-md shadow-xl border border-slate-200/80'
-            } rounded-full px-6 py-3`}
-          >
+        <nav className="container mx-auto px-6">
+          <div className="flex items-center justify-between h-16">
             {/* Logo - Left */}
-            <Link href="#home" className="flex items-center gap-2 group pr-4 border-r border-slate-200">
-              <div className="hidden md:block">
-                <motion.span
-                  className="text-xl font-bold"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <span className="text-blue-600">Next Zen</span> <span className="text-gray-900">AI Strategix</span>
-                </motion.span>
-              </div>
+            <Link href="#home" className="flex items-center gap-3 group">
+              {/* Logo Icon */}
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Logo className="w-10 h-10" />
+              </motion.div>
+              
+              {/* Company Name */}
+              <motion.div
+                className="flex flex-col leading-tight"
+                whileHover={{ x: 2 }}
+              >
+                <span className="text-lg font-bold text-white tracking-tight">
+                  NextZen
+                </span>
+                <span className="text-xs font-semibold text-cyan-400 tracking-wider">
+                  AI STRATEGIX
+                </span>
+              </motion.div>
             </Link>
 
             {/* Desktop Navigation - Center */}
-            <div className="hidden lg:flex items-center gap-1 flex-1 justify-center">
+            <div className="hidden lg:flex items-center gap-2">
               {navItems.map((item, index) => (
-                <motion.a
+                <div
                   key={item.name}
-                  href={item.href}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="relative px-4 py-2 font-semibold text-sm text-slate-700 hover:text-[#1e4d8b] transition-all rounded-full hover:bg-blue-50"
+                  className="relative"
+                  onMouseEnter={() => setHoveredItem(item.name)}
+                  onMouseLeave={() => setHoveredItem(null)}
                 >
-                  {item.name}
-                </motion.a>
+                  <motion.a
+                    href={item.href}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.4 }}
+                    className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors"
+                  >
+                    {item.name}
+                    {item.hasDropdown && (
+                      <motion.svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        className="ml-1"
+                        animate={{ rotate: hoveredItem === item.name ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <path
+                          d="M2 4L6 8L10 4"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </motion.svg>
+                    )}
+                  </motion.a>
+                </div>
               ))}
             </div>
             
-            {/* CTA Button - Right */}
-            <motion.a
-              href="#contact"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              whileHover={{ scale: 1.05, boxShadow: '0 10px 40px -10px rgba(30, 77, 139, 0.4)' }}
-              whileTap={{ scale: 0.95 }}
-              className="hidden lg:flex px-6 py-2.5 bg-gradient-to-r from-[#1e4d8b] to-[#3b7dd6] text-white font-semibold rounded-full transition-all items-center gap-2 shadow-lg shadow-blue-500/30 ml-4"
-            >
-              <span>Get Started</span>
-              <i className="fas fa-arrow-right text-sm"></i>
-            </motion.a>
+            {/* CTA Buttons - Right */}
+            <div className="hidden lg:flex items-center gap-4">
+              <motion.a
+                href="#contact"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4, duration: 0.4 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-2 text-sm font-semibold text-white/80 hover:text-white transition-colors"
+              >
+                Contact
+              </motion.a>
+              <motion.a
+                href="#contact"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.4 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-600 text-black font-semibold text-sm rounded transition-all"
+              >
+                Get Started
+              </motion.a>
+            </div>
 
             {/* Mobile Menu Button */}
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-full text-slate-700 hover:bg-slate-100 hover:text-blue-600 transition-all ml-auto"
+              className="lg:hidden p-2 text-white hover:text-cyan-400 transition-colors"
             >
-              <motion.div
-                animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-              </motion.div>
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </motion.button>
-          </motion.div>
+          </div>
 
-          {/* Mobile Menu Dropdown */}
+          {/* Mobile Menu */}
           <AnimatePresence>
             {isMobileMenuOpen && (
               <motion.div
-                initial={{ opacity: 0, y: -20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
-                className="lg:hidden mt-4 mx-auto max-w-sm bg-white/95 backdrop-blur-xl shadow-2xl border border-slate-200 rounded-3xl p-6"
+                className="lg:hidden border-t border-white/10 py-4"
               >
                 {navItems.map((item, index) => (
                   <motion.a
@@ -121,27 +174,29 @@ export default function Header() {
                     href={item.href}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
                     transition={{ delay: index * 0.05 }}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    whileHover={{ x: 4, backgroundColor: 'rgba(59, 130, 246, 0.1)' }}
-                    className="block py-3 px-5 text-slate-700 hover:text-blue-600 font-semibold rounded-2xl transition-all mb-2"
+                    className="block py-3 px-4 text-white/80 hover:text-white hover:bg-cyan-500/10 transition-all rounded"
                   >
                     {item.name}
                   </motion.a>
                 ))}
-                <motion.a
-                  href="#contact"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ delay: 0.3 }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  whileTap={{ scale: 0.95 }}
-                  className="block mt-4 px-6 py-3 bg-gradient-to-r from-[#1e4d8b] to-[#3b7dd6] text-white rounded-full font-semibold text-center shadow-lg shadow-blue-500/30"
-                >
-                  Get Started
-                </motion.a>
+                <div className="px-4 pt-4 space-y-3">
+                  <a
+                    href="#contact"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block py-2 text-center text-white/80 hover:text-white transition-colors"
+                  >
+                    Contact
+                  </a>
+                  <a
+                    href="#contact"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block py-3 text-center bg-cyan-500 hover:bg-cyan-600 text-black font-semibold rounded transition-all"
+                  >
+                    Get Started
+                  </a>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -150,12 +205,12 @@ export default function Header() {
 
       {/* Scroll Progress Indicator */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#1e4d8b] to-[#3b7dd6] z-[60] origin-left"
+        className="fixed top-0 left-0 right-0 h-0.5 bg-cyan-500 z-[60] origin-left"
         style={{ scaleX: 0 }}
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         transition={{ duration: 0.3 }}
-      ></motion.div>
+      />
     </>
   );
 }
