@@ -150,37 +150,6 @@ export default function Hero() {
                 />
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/30 via-blue-500/20 to-purple-500/30 mix-blend-overlay" />
-                
-                {/* Floating feature cards */}
-                <motion.div
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1, duration: 0.8 }}
-                  className="absolute top-8 left-8 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 shadow-xl"
-                >
-                  <div className="text-cyan-400 text-xl font-bold">Fast</div>
-                  <div className="text-white/80 text-sm">Rapid Deployment</div>
-                </motion.div>
-                
-                <motion.div
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.2, duration: 0.8 }}
-                  className="absolute top-8 right-8 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 shadow-xl"
-                >
-                  <div className="text-cyan-400 text-xl font-bold">Agile</div>
-                  <div className="text-white/80 text-sm">Modern Solutions</div>
-                </motion.div>
-                
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.4, duration: 0.8 }}
-                  className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 shadow-xl"
-                >
-                  <div className="text-cyan-400 text-xl font-bold">Focused</div>
-                  <div className="text-white/80 text-sm">Goal-Driven Results</div>
-                </motion.div>
               </motion.div>
               
               {/* Subtle animated glow effect */}

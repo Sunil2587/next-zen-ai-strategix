@@ -37,7 +37,8 @@ export async function POST(request: Request) {
     // Send email using Resend if API key is configured
     if (resend) {
       try {
-        await resend.emails.send({
+        console.log('Attempting to send email via Resend...');
+        const result = await resend.emails.send({
           from: 'Contact Form <onboarding@resend.dev>', // Use your verified domain later
           to: ['demo87173@gmail.com'],
           subject: `New Contact Form Submission from ${name}`,
@@ -61,10 +62,13 @@ export async function POST(request: Request) {
             </div>
           `,
         });
+        console.log('Email sent successfully via Resend:', result);
       } catch (emailError) {
         console.error('Email sending failed:', emailError);
         // Don't fail the request if email fails - still log the submission
       }
+    } else {
+      console.warn('Resend not initialized - RESEND_API_KEY missing');
     }
 
     // Return success response
