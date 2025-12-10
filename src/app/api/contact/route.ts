@@ -40,7 +40,7 @@ export async function POST(request: Request) {
         console.log('Attempting to send email via Resend...');
         const result = await resend.emails.send({
           from: 'Contact Form <onboarding@resend.dev>', // Use your verified domain later
-          to: ['demo87173@gmail.com'],
+          to: ['Info@nextzenaistrategix.com'],
           subject: `New Contact Form Submission from ${name}`,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

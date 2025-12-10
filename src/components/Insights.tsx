@@ -13,6 +13,7 @@ const insights = [
     date: 'Nov 2024',
     readTime: '8 min read',
     image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=400&fit=crop',
+    slug: 'future-enterprise-architecture-2025',
   },
   {
     category: 'AI & Innovation',
@@ -21,6 +22,7 @@ const insights = [
     date: 'Oct 2024',
     readTime: '6 min read',
     image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop',
+    slug: 'implementing-ai-responsibly',
   },
   {
     category: 'Cloud Strategy',
@@ -29,6 +31,7 @@ const insights = [
     date: 'Oct 2024',
     readTime: '10 min read',
     image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=400&fit=crop',
+    slug: 'multi-cloud-vs-hybrid-cloud',
   },
   {
     category: 'Cybersecurity',
@@ -37,6 +40,7 @@ const insights = [
     date: 'Sep 2024',
     readTime: '7 min read',
     image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=400&fit=crop',
+    slug: 'zero-trust-security',
   },
 ];
 
@@ -111,13 +115,14 @@ export default function Insights() {
                     <span>{insight.readTime}</span>
                   </div>
 
-                  <motion.button
+                  <motion.a
+                    href={`/insights/${insight.slug}`}
                     whileHover={{ x: 5 }}
                     className="text-cyan-600 font-semibold hover:text-cyan-700 transition-colors flex items-center gap-2 text-sm"
                   >
                     Read More
                     <ArrowRight size={16} />
-                  </motion.button>
+                  </motion.a>
                 </div>
               </div>
             </motion.div>

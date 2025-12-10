@@ -27,6 +27,11 @@ const navItems = [
     href: '#industries',
     hasDropdown: false
   },
+  { 
+    name: 'Careers', 
+    href: '/careers',
+    hasDropdown: false
+  },
 ];
 
 export default function Header() {
@@ -90,14 +95,16 @@ export default function Header() {
                   onMouseEnter={() => setHoveredItem(item.name)}
                   onMouseLeave={() => setHoveredItem(null)}
                 >
-                  <motion.a
-                    href={item.href}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1, duration: 0.4 }}
-                    className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors"
+                  <Link
+                    href={item.href.startsWith('#') ? `/${item.href}` : item.href}
                   >
-                    {item.name}
+                    <motion.span
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1, duration: 0.4 }}
+                      className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors cursor-pointer"
+                    >
+                      {item.name}
                     {item.hasDropdown && (
                       <motion.svg
                         width="12"
@@ -117,35 +124,30 @@ export default function Header() {
                         />
                       </motion.svg>
                     )}
-                  </motion.a>
+                    </motion.span>
+                  </Link>
                 </div>
               ))}
             </div>
             
             {/* CTA Buttons - Right */}
             <div className="hidden lg:flex items-center gap-4">
-              <motion.a
-                href="#contact"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4, duration: 0.4 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-2 text-sm font-semibold text-white/80 hover:text-white transition-colors"
-              >
-                Contact
-              </motion.a>
-              <motion.a
-                href="#contact"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5, duration: 0.4 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-600 text-black font-semibold text-sm rounded transition-all"
-              >
-                Get Started
-              </motion.a>
+              <Link href="/#contact">
+                <motion.span
+                  className="px-6 py-2.5 text-white/80 hover:text-white font-semibold text-sm transition-colors cursor-pointer"
+                >
+                  Contact
+                </motion.span>
+              </Link>
+              <Link href="/#contact">
+                <motion.span
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-600 text-black font-semibold text-sm rounded transition-all cursor-pointer inline-block"
+                >
+                  Get Started
+                </motion.span>
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -169,33 +171,35 @@ export default function Header() {
                 className="lg:hidden border-t border-white/10 py-4"
               >
                 {navItems.map((item, index) => (
-                  <motion.a
-                    key={item.name}
-                    href={item.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="block py-3 px-4 text-white/80 hover:text-white hover:bg-cyan-500/10 transition-all rounded"
-                  >
-                    {item.name}
-                  </motion.a>
+                  <Link key={item.name} href={item.href.startsWith('#') ? `/${item.href}` : item.href}>
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block py-3 px-4 text-white/80 hover:text-white hover:bg-cyan-500/10 transition-all rounded cursor-pointer"
+                    >
+                      {item.name}
+                    </motion.div>
+                  </Link>
                 ))}
                 <div className="px-4 pt-4 space-y-3">
-                  <a
-                    href="#contact"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="block py-2 text-center text-white/80 hover:text-white transition-colors"
-                  >
-                    Contact
-                  </a>
-                  <a
-                    href="#contact"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="block py-3 text-center bg-cyan-500 hover:bg-cyan-600 text-black font-semibold rounded transition-all"
-                  >
-                    Get Started
-                  </a>
+                  <Link href="/#contact">
+                    <div
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block py-2 text-center text-white/80 hover:text-white transition-colors cursor-pointer"
+                    >
+                      Contact
+                    </div>
+                  </Link>
+                  <Link href="/#contact">
+                    <div
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block py-3 text-center bg-cyan-500 hover:bg-cyan-600 text-black font-semibold rounded transition-all cursor-pointer"
+                    >
+                      Get Started
+                    </div>
+                  </Link>
                 </div>
               </motion.div>
             )}

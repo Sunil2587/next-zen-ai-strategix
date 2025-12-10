@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Mail, Phone, MapPin, CheckCircle, AlertCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, CheckCircle, AlertCircle, Globe } from 'lucide-react';
 
 export default function Contact() {
   const sectionRef = useRef(null);
@@ -22,6 +22,7 @@ export default function Contact() {
   
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [selectedOffice, setSelectedOffice] = useState<'usa' | 'india'>('usa');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -108,8 +109,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-bold text-lg mb-1 text-black">Email</h3>
-                  <a href="mailto:hr@nextzenaistrategix.com" className="text-gray-600 hover:text-cyan-500 transition-colors">
-                    hr@nextzenaistrategix.com
+                  <a href="mailto:Info@nextzenaistrategix.com" className="text-gray-600 hover:text-cyan-500 transition-colors">
+                    Info@nextzenaistrategix.com
                   </a>
                 </div>
               </motion.div>
@@ -128,18 +129,74 @@ export default function Contact() {
                 </div>
               </motion.div>
               <motion.div 
-                whileHover={{ scale: 1.02 }}
-                className="flex items-start gap-4 bg-white rounded-lg p-6 border border-gray-200 hover:border-cyan-500 transition-all shadow-sm"
+                className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm"
               >
-                <div className="w-12 h-12 bg-cyan-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg mb-1 text-black">Address</h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    48 BI-STATE PLAZA, #625<br />
-                    OLD TAPPAN, NJ 07304
-                  </p>
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="w-12 h-12 bg-cyan-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Globe className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-bold text-lg mb-3 text-black">Office Locations</h3>
+                    
+                    {/* Tab Buttons */}
+                    <div className="flex gap-2 mb-4">
+                      <button
+                        onClick={() => setSelectedOffice('usa')}
+                        className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                          selectedOffice === 'usa'
+                            ? 'bg-cyan-500 text-white'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                      >
+                        USA
+                      </button>
+                      <button
+                        onClick={() => setSelectedOffice('india')}
+                        className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                          selectedOffice === 'india'
+                            ? 'bg-cyan-500 text-white'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                      >
+                        India
+                      </button>
+                    </div>
+
+                    {/* Address Content */}
+                    <motion.div
+                      key={selectedOffice}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {selectedOffice === 'usa' ? (
+                        <div className="flex items-start gap-3">
+                          <MapPin className="w-5 h-5 text-cyan-500 mt-0.5 flex-shrink-0" />
+                          <div>
+                            <p className="text-gray-800 font-semibold mb-1">Next Zen Ai Strategix LLC</p>
+                            <p className="text-gray-600 leading-relaxed">
+                              97 Newkirk Street, Suite 341<br />
+                              Jersey City, NJ 07306<br />
+                              United States
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex items-start gap-3">
+                          <MapPin className="w-5 h-5 text-cyan-500 mt-0.5 flex-shrink-0" />
+                          <div>
+                            <p className="text-gray-800 font-semibold mb-1">Nextzen Ai Strategix Private Limited</p>
+                            <p className="text-gray-600 leading-relaxed">
+                              4th Floor, Aparna Astute Jubilee Hills<br />
+                              Shaikpet, Hyderabad<br />
+                              Telangana 500096<br />
+                              India
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </motion.div>
+                  </div>
                 </div>
               </motion.div>
             </div>

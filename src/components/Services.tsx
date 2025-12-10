@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Box, Cloud, Shield, Cog, Lock, Database, Code, Briefcase, Users, BarChart3, CircuitBoard } from 'lucide-react';
+import { Box, Cloud, Shield, Cog, Lock, Database, Code, Briefcase, Users, BarChart3, CircuitBoard, ShoppingCart, Truck } from 'lucide-react';
 
 const services = [
   {
@@ -105,6 +105,33 @@ const services = [
     iconBg: 'bg-gradient-to-br from-teal-500 to-cyan-500',
     slug: 'business-intelligence',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
+  },
+  {
+    icon: CircuitBoard,
+    title: 'Research & Development',
+    description: 'Drive innovation through cutting-edge R&D in AI, ML, and emerging technologies',
+    gradient: 'from-violet-500 to-purple-600',
+    iconBg: 'bg-gradient-to-br from-violet-500 to-purple-600',
+    slug: 'research-development',
+    image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&h=600&fit=crop',
+  },
+  {
+    icon: ShoppingCart,
+    title: 'Procurement Services',
+    description: 'Strategic sourcing and vendor management to optimize costs and improve efficiency',
+    gradient: 'from-amber-500 to-orange-600',
+    iconBg: 'bg-gradient-to-br from-amber-500 to-orange-600',
+    slug: 'procurement-services',
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop',
+  },
+  {
+    icon: Truck,
+    title: 'Supply Chain Management',
+    description: 'End-to-end supply chain optimization for resilience and operational excellence',
+    gradient: 'from-emerald-500 to-teal-600',
+    iconBg: 'bg-gradient-to-br from-emerald-500 to-teal-600',
+    slug: 'supply-chain-management',
+    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop',
   },
 ];
 

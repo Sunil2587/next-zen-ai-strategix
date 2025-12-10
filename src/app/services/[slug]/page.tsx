@@ -415,6 +415,117 @@ const serviceData: any = {
       'BI Tool Implementation (Tableau, Power BI)',
       'KPI Framework Design'
     ]
+  },
+  'research-development': {
+    title: 'Research & Development',
+    description: 'Drive innovation through cutting-edge R&D in AI, ML, and emerging technologies',
+    fullDescription: 'Our Research & Development services focus on exploring and implementing breakthrough technologies that give your organization a competitive edge. We conduct applied research in artificial intelligence, machine learning, blockchain, and quantum computing to solve complex business challenges and create new opportunities for growth.',
+    image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&h=600&fit=crop',
+    industries: [
+      'Technology - Product Innovation & IP Development',
+      'Pharmaceuticals - Drug Discovery & Clinical Research',
+      'Automotive - Autonomous Systems & Smart Mobility',
+      'Energy - Clean Tech & Sustainability Solutions'
+    ],
+    projects: [
+      {
+        name: 'AI-Powered Drug Discovery Platform',
+        description: 'Developed ML models to accelerate pharmaceutical compound screening',
+        result: 'Reduced discovery time by 60%'
+      },
+      {
+        name: 'Autonomous Vehicle Perception System',
+        description: 'Created computer vision models for real-time object detection and tracking',
+        result: 'Achieved 99.7% accuracy in testing'
+      },
+      {
+        name: 'Quantum Algorithm for Optimization',
+        description: 'Designed quantum computing solution for supply chain logistics',
+        result: '35% improvement in route optimization'
+      }
+    ],
+    capabilities: [
+      'Applied AI/ML Research',
+      'Proof of Concept Development',
+      'Patent & IP Strategy',
+      'Emerging Technology Assessment',
+      'Innovation Labs & Workshops',
+      'Academic & Industry Partnerships'
+    ]
+  },
+  'procurement-services': {
+    title: 'Procurement Services',
+    description: 'Strategic sourcing and vendor management to optimize costs and improve efficiency',
+    fullDescription: 'Our Procurement Services help organizations transform their purchasing operations through strategic sourcing, vendor management, and digital procurement solutions. We combine industry expertise with advanced analytics to reduce costs, mitigate risks, and build resilient supplier relationships that drive competitive advantage.',
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=600&fit=crop',
+    industries: [
+      'Manufacturing - Raw Materials & Component Sourcing',
+      'Healthcare - Medical Equipment & Supplies',
+      'Retail - Merchandise & Inventory Management',
+      'Technology - Hardware & Software Procurement'
+    ],
+    projects: [
+      {
+        name: 'Strategic Sourcing Transformation',
+        description: 'Redesigned procurement processes for global manufacturer',
+        result: '22% cost reduction across $500M spend'
+      },
+      {
+        name: 'Supplier Consolidation Program',
+        description: 'Rationalized vendor base from 2,000 to 600 suppliers',
+        result: '$15M annual savings and improved quality'
+      },
+      {
+        name: 'Digital Procurement Platform',
+        description: 'Implemented e-procurement system with AI-powered spend analytics',
+        result: '40% faster procurement cycle time'
+      }
+    ],
+    capabilities: [
+      'Strategic Sourcing & Category Management',
+      'Supplier Relationship Management',
+      'Contract Negotiation & Management',
+      'Spend Analytics & Savings Tracking',
+      'E-Procurement & P2P Automation',
+      'Risk Management & Compliance'
+    ]
+  },
+  'supply-chain-management': {
+    title: 'Supply Chain Management',
+    description: 'End-to-end supply chain optimization for resilience and operational excellence',
+    fullDescription: 'Our Supply Chain Management services deliver comprehensive solutions for planning, execution, and optimization across your entire supply network. We leverage advanced analytics, AI, and industry best practices to build agile, resilient supply chains that reduce costs, improve service levels, and create sustainable competitive advantage.',
+    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&h=600&fit=crop',
+    industries: [
+      'Retail - Omnichannel Fulfillment & Inventory',
+      'Manufacturing - Production Planning & Logistics',
+      'E-commerce - Last-Mile Delivery & Warehousing',
+      'Pharmaceuticals - Cold Chain & Distribution'
+    ],
+    projects: [
+      {
+        name: 'Supply Chain Network Optimization',
+        description: 'Redesigned distribution network for national retailer',
+        result: '30% reduction in transportation costs'
+      },
+      {
+        name: 'Demand Forecasting with AI',
+        description: 'Implemented ML-based forecasting system for CPG company',
+        result: '45% improvement in forecast accuracy'
+      },
+      {
+        name: 'Warehouse Automation',
+        description: 'Deployed robotics and WMS for e-commerce fulfillment center',
+        result: '3x increase in throughput capacity'
+      }
+    ],
+    capabilities: [
+      'Supply Chain Strategy & Design',
+      'Demand Planning & Forecasting',
+      'Inventory Optimization',
+      'Transportation & Logistics Management',
+      'Warehouse & Distribution Operations',
+      'Supply Chain Analytics & Control Tower'
+    ]
   }
 };
 
