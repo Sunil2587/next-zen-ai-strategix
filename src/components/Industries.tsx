@@ -1,7 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { 
   Building2, ShoppingCart, Factory, Smartphone, HeartPulse, 
@@ -148,36 +147,11 @@ const trustPoints = [
 ];
 
 export default function Industries() {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-
   return (
-    <section ref={sectionRef} id="industries" className="py-24 bg-white relative overflow-hidden">
-      {/* Subtle pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `
-            linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-            linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px'
-        }} />
-      </div>
-
-      {/* Animated background elements */}
-      <motion.div
-        style={{ y }}
-        className="absolute top-20 right-10 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl"
-      />
-      <motion.div
-        style={{ y: useTransform(scrollYProgress, [0, 1], [-50, 50]) }}
-        className="absolute bottom-20 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
-      />
+    <section id="industries" className="py-24 bg-white relative overflow-hidden">
+      {/* Static background elements */}
+      <div className="absolute top-20 right-10 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
       
       <div className="container mx-auto px-6 relative z-10">
         {/* Hero Section */}

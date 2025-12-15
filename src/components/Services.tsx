@@ -1,10 +1,9 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Box, Cloud, Shield, Cog, Lock, Database, Code, Briefcase, Users, BarChart3, CircuitBoard, ShoppingCart, Truck } from 'lucide-react';
+import { Box, Cloud, Shield, Cog, Lock, Database, Code, Briefcase, Users, BarChart3, CircuitBoard, ShoppingCart, Truck, TrendingUp } from 'lucide-react';
 
 const services = [
   {
@@ -133,39 +132,23 @@ const services = [
     slug: 'supply-chain-management',
     image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop',
   },
+  {
+    icon: TrendingUp,
+    title: 'Advanced Quant Finance Research & Market Intelligence',
+    description: 'Quantitative analysis and market research leveraging AI for superior financial insights',
+    gradient: 'from-blue-600 to-indigo-700',
+    iconBg: 'bg-gradient-to-br from-blue-600 to-indigo-700',
+    slug: 'quant-finance-research',
+    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop',
+  },
 ];
 
 export default function Services() {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-
   return (
-    <section ref={sectionRef} id="services" className="py-24 bg-white relative overflow-hidden">
-      {/* Subtle pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `
-            linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-            linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px'
-        }} />
-      </div>
-      
-      {/* Animated background elements */}
-      <motion.div
-        style={{ y }}
-        className="absolute top-20 right-10 w-72 h-72 bg-cyan-400/10 rounded-full blur-3xl"
-      />
-      <motion.div
-        style={{ y: useTransform(scrollYProgress, [0, 1], [-50, 50]) }}
-        className="absolute bottom-20 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
-      />
+    <section id="services" className="py-24 bg-white relative overflow-hidden">
+      {/* Static background elements */}
+      <div className="absolute top-20 right-10 w-72 h-72 bg-cyan-400/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
       
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
@@ -213,14 +196,9 @@ export default function Services() {
                     type: "spring",
                     stiffness: 100
                   }}
-                  whileHover={{ 
-                    y: -12, 
-                    scale: 1.03,
-                    transition: { duration: 0.3 }
-                  }}
                   className="relative group h-full"
                 >
-                  <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-cyan-500 h-full flex flex-col cursor-pointer">
+                  <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-cyan-500 h-full flex flex-col cursor-pointer hover:-translate-y-2">
                     {/* Image */}
                     <div className="relative h-48 overflow-hidden">
                       <Image
@@ -232,13 +210,9 @@ export default function Services() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                       {/* Icon overlay */}
-                      <motion.div
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        transition={{ duration: 0.3 }}
-                        className={`absolute bottom-4 left-4 w-14 h-14 ${service.iconBg} rounded-lg flex items-center justify-center shadow-lg`}
-                      >
+                      <div className={`absolute bottom-4 left-4 w-14 h-14 ${service.iconBg} rounded-lg flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110`}>
                         <service.icon className="w-7 h-7 text-white" />
-                      </motion.div>
+                      </div>
                     </div>
 
                     {/* Content */}

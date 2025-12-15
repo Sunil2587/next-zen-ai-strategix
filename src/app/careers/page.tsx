@@ -1,7 +1,7 @@
 'use client';
 
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 import Link from 'next/link';
 import { ArrowRight, Briefcase, MapPin, Clock, Target, Users, TrendingUp, Award, Heart, Zap } from 'lucide-react';
 import Header from '@/components/Header';
@@ -66,6 +66,7 @@ const benefits = [
 
 const openPositions = [
   {
+    id: 'senior-ai-engineer',
     title: 'Senior AI Engineer',
     department: 'Engineering',
     location: 'Jersey City, NJ / Remote',
@@ -80,6 +81,7 @@ const openPositions = [
     ]
   },
   {
+    id: 'cloud-solutions-architect',
     title: 'Cloud Solutions Architect',
     department: 'Consulting',
     location: 'Hyderabad, India / Hybrid',
@@ -94,6 +96,7 @@ const openPositions = [
     ]
   },
   {
+    id: 'data-scientist',
     title: 'Data Scientist',
     department: 'Data Science',
     location: 'Remote',
@@ -108,6 +111,7 @@ const openPositions = [
     ]
   },
   {
+    id: 'cybersecurity-consultant',
     title: 'Cybersecurity Consultant',
     department: 'Security',
     location: 'Jersey City, NJ / Hybrid',
@@ -122,6 +126,7 @@ const openPositions = [
     ]
   },
   {
+    id: 'business-analyst',
     title: 'Business Analyst',
     department: 'Consulting',
     location: 'Hyderabad, India',
@@ -136,6 +141,7 @@ const openPositions = [
     ]
   },
   {
+    id: 'devops-engineer',
     title: 'DevOps Engineer',
     department: 'Engineering',
     location: 'Remote',
@@ -152,10 +158,46 @@ const openPositions = [
 ];
 
 export default function CareersPage() {
-  const [heroRef, heroInView] = useInView({ triggerOnce: true, threshold: 0.1 });
-  const [valuesRef, valuesInView] = useInView({ triggerOnce: true, threshold: 0.1 });
-  const [benefitsRef, benefitsInView] = useInView({ triggerOnce: true, threshold: 0.1 });
-  const [jobsRef, jobsInView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const [heroInView, setHeroInView] = useState(false);
+  const [valuesInView, setValuesInView] = useState(false);
+  const [benefitsInView, setBenefitsInView] = useState(false);
+  const [jobsInView, setJobsInView] = useState(false);
+
+  const heroRef = useRef<HTMLDivElement>(null);
+  const valuesRef = useRef<HTMLDivElement>(null);
+  const benefitsRef = useRef<HTMLDivElement>(null);
+  const jobsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const createObserver = (ref: React.RefObject<HTMLDivElement>, setter: (value: boolean) => void) => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setter(true);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.1 }
+      );
+
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+
+      return observer;
+    };
+
+    const observers = [
+      createObserver(heroRef, setHeroInView),
+      createObserver(valuesRef, setValuesInView),
+      createObserver(benefitsRef, setBenefitsInView),
+      createObserver(jobsRef, setJobsInView),
+    ];
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, []);
 
   return (
     <main className="min-h-screen bg-white">
@@ -336,14 +378,15 @@ export default function CareersPage() {
                     </div>
                     <p className="text-sm text-gray-500">Experience: {job.experience}</p>
                   </div>
-                  <motion.a
-                    href="/#contact"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg transition-all whitespace-nowrap"
-                  >
-                    Apply Now
-                  </motion.a>
+                  <Link href={`/careers/job/${job.id}`}>
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg transition-all whitespace-nowrap"
+                    >
+                      View Details
+                    </motion.button>
+                  </Link>
                 </div>
               </motion.div>
             ))}

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display, Cinzel } from "next/font/google";
 import "./globals.css";
-import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const inter = Inter({ 
   subsets: ["latin"], 
@@ -24,9 +24,39 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
-  title: "NextZen AI Strategix - IT Consulting & Digital Transformation",
+  title: {
+    default: "NextZen AI Strategix - IT Consulting & Digital Transformation",
+    template: "%s | NextZen AI Strategix",
+  },
   description: "Leading IT consulting firm specializing in AI strategy, cloud solutions, digital transformation, and enterprise software development.",
   keywords: ["IT consulting", "AI strategy", "digital transformation", "cloud solutions", "enterprise software"],
+  authors: [{ name: "NextZen AI Strategix" }],
+  creator: "NextZen AI Strategix",
+  metadataBase: new URL('https://nextzen-ai-strategix.com'),
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://nextzen-ai-strategix.com',
+    title: 'NextZen AI Strategix - IT Consulting & Digital Transformation',
+    description: 'Leading IT consulting firm specializing in AI strategy, cloud solutions, digital transformation, and enterprise software development.',
+    siteName: 'NextZen AI Strategix',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'NextZen AI Strategix - IT Consulting & Digital Transformation',
+    description: 'Leading IT consulting firm specializing in AI strategy, cloud solutions, digital transformation, and enterprise software development.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -36,18 +66,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable} ${cinzel.variable}`}>
-      <head>
-        <link 
-          rel="stylesheet" 
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-          crossOrigin="anonymous"
-        />
-      </head>
       <body className={inter.className}>
-        <SmoothScrollProvider>
+        <AuthProvider>
           {children}
-        </SmoothScrollProvider>
+        </AuthProvider>
       </body>
     </html>
   );

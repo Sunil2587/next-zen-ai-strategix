@@ -1,7 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 import { Check, Zap, Code, Headphones } from 'lucide-react';
 
 const features = [
@@ -28,26 +27,11 @@ const features = [
 ];
 
 export default function About() {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
-
   return (
-    <section ref={sectionRef} id="about" className="py-24 bg-gray-50 relative overflow-hidden">
-      {/* Animated background orbs */}
-      <motion.div
-        style={{ rotate, scale }}
-        className="absolute top-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
-      />
-      <motion.div
-        style={{ rotate: useTransform(scrollYProgress, [0, 1], [360, 0]) }}
-        className="absolute bottom-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
-      />
+    <section id="about" className="py-24 bg-gray-50 relative overflow-hidden">
+      {/* Static background orbs */}
+      <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
       
       <div className="container mx-auto px-6 relative z-10">
         <motion.div

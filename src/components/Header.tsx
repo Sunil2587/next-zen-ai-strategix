@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 import Link from 'next/link';
 import Logo from './Logo';
+import { useAuth } from '@/contexts/AuthContext';
 
 const navItems = [
   { 
@@ -38,6 +39,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -132,22 +134,37 @@ export default function Header() {
             
             {/* CTA Buttons - Right */}
             <div className="hidden lg:flex items-center gap-4">
-              <Link href="/#contact">
-                <motion.span
-                  className="px-6 py-2.5 text-white/80 hover:text-white font-semibold text-sm transition-colors cursor-pointer"
-                >
-                  Contact
-                </motion.span>
-              </Link>
-              <Link href="/#contact">
-                <motion.span
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-600 text-black font-semibold text-sm rounded transition-all cursor-pointer inline-block"
-                >
-                  Get Started
-                </motion.span>
-              </Link>
+              {user ? (
+                <Link href="/careers/dashboard">
+                  <motion.span
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex items-center gap-2 px-6 py-2.5 bg-cyan-500 hover:bg-cyan-600 text-black font-semibold text-sm rounded transition-all cursor-pointer"
+                  >
+                    <User size={16} />
+                    My Dashboard
+                  </motion.span>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/#contact">
+                    <motion.span
+                      className="px-6 py-2.5 text-white/80 hover:text-white font-semibold text-sm transition-colors cursor-pointer"
+                    >
+                      Contact
+                    </motion.span>
+                  </Link>
+                  <Link href="/#contact">
+                    <motion.span
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-600 text-black font-semibold text-sm rounded transition-all cursor-pointer inline-block"
+                    >
+                      Get Started
+                    </motion.span>
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}

@@ -1,8 +1,4 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
-
-// Initialize Resend with API key from environment variable
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 export async function POST(request: Request) {
   try {
@@ -26,7 +22,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Log submission
+    // Log submission (in production, save to database or send to email service)
     console.log('Contact Form Submission:', {
       name,
       email,
@@ -34,42 +30,8 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString(),
     });
 
-    // Send email using Resend if API key is configured
-    if (resend) {
-      try {
-        console.log('Attempting to send email via Resend...');
-        const result = await resend.emails.send({
-          from: 'Contact Form <onboarding@resend.dev>', // Use your verified domain later
-          to: ['Info@nextzenaistrategix.com'],
-          subject: `New Contact Form Submission from ${name}`,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #06b6d4; border-bottom: 2px solid #06b6d4; padding-bottom: 10px;">
-                New Contact Form Submission
-              </h2>
-              <div style="margin: 20px 0;">
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-                <p><strong>Message:</strong></p>
-                <div style="background: #f3f4f6; padding: 15px; border-radius: 5px; margin-top: 10px;">
-                  ${message.replace(/\n/g, '<br>')}
-                </div>
-              </div>
-              <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;">
-              <p style="color: #6b7280; font-size: 12px;">
-                Submitted on ${new Date().toLocaleString()}
-              </p>
-            </div>
-          `,
-        });
-        console.log('Email sent successfully via Resend:', result);
-      } catch (emailError) {
-        console.error('Email sending failed:', emailError);
-        // Don't fail the request if email fails - still log the submission
-      }
-    } else {
-      console.warn('Resend not initialized - RESEND_API_KEY missing');
-    }
+    // TODO: In production, integrate with your email service or save to Supabase database
+    // For now, we're just logging the submission
 
     // Return success response
     return NextResponse.json(

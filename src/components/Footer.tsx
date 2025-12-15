@@ -39,16 +39,22 @@ export default function Footer() {
             <h4 className="font-semibold mb-4 text-white">Contact</h4>
             <ul className="space-y-3 text-sm text-gray-400">
               <li>
-                <a href="mailto:hr@nextzenaistrategix.com" className="hover:text-cyan-400 transition-colors">
-                  hr@nextzenaistrategix.com
+                <a href="mailto:Info@nextzenaistrategix.com" className="hover:text-cyan-400 transition-colors">
+                  Info@nextzenaistrategix.com
                 </a>
               </li>
-              <li>
-                <a href="tel:+15513712342" className="hover:text-cyan-400 transition-colors">
-                  +1 (551) 371-2342
-                </a>
+              <li className="pt-2">
+                <span className="text-white font-semibold block mb-1">USA Office:</span>
+                Next Zen Ai Strategix LLC<br />
+                97 Newkirk Street, Suite 341<br />
+                Jersey City, NJ 07306
               </li>
-              <li className="pt-2">48 BI-STATE PLAZA, #625<br />OLD TAPPAN, NJ 07304</li>
+              <li className="pt-2">
+                <span className="text-white font-semibold block mb-1">India Office:</span>
+                Nextzen Ai Strategix Private Limited<br />
+                4th Floor, Aparna Astute Jubilee Hills<br />
+                Shaikpet, Hyderabad, Telangana 500096
+              </li>
             </ul>
           </div>
         </div>
